@@ -8,7 +8,7 @@ def _requires_from_file(filename: str) -> List[str]:
 
 setuptools.setup(
     name="mclpiezopy",
-    version="0.1.0",
+    version="0.1.1",
     install_requires=_requires_from_file('requirements.txt'),
     author="Hiroaki Takahashi",
     author_email="aphiloboe@gmail.com",

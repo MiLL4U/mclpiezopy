@@ -1,0 +1,4 @@
+AXIS_ID_X = 1
+AXIS_ID_Y = 2
+AXIS_ID_Z = 3
+AXIS_ID_AUX = 4
