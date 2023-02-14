@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from mclpiezopy import MCLPiezo
+
+from mclpiezopy import AXIS_ID, MCLPiezo
 
 ROOT_TITLE = "MCL Piezo Z-Controller"
 
@@ -14,7 +15,7 @@ class App(tk.Tk):
         self.title(ROOT_TITLE)
 
         # variables
-        init_z = self.piezo.mcl_read(3)
+        init_z = self.piezo.mcl_read(AXIS_ID["Z"])
         self.__current_z = tk.DoubleVar(value=init_z)
         self.__current_z_str = tk.StringVar()
         self.__update_z_str()
@@ -28,7 +29,7 @@ class App(tk.Tk):
 
     def __initialize_piezo(self) -> None:
         self.piezo = MCLPiezo()
-        self.__max_z = self.piezo.get_calibration(3)
+        self.__max_z = self.piezo.get_calibration(AXIS_ID["Z"])
 
     def __create_widgets(self) -> None:
         self.z_slider = ttk.Scale(
@@ -45,7 +46,7 @@ class App(tk.Tk):
 
     def __handle_z_slider(self, *args) -> None:
         self.piezo.goz(self.__current_z.get())
-        self.piezo.mcl_read(3)  # dummy
+        self.piezo.mcl_read(AXIS_ID["Z"])  # dummy
         self.__current_z.set(self.piezo.mcl_read(3))
         self.__update_z_str()
 
