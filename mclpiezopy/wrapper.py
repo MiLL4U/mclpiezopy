@@ -1,7 +1,7 @@
 import atexit
 from ctypes import c_double, c_int, c_uint, cdll
 
-from .constants import AXIS_ID
+from .constants import AXIS_ID, AxisID
 
 
 class MCLPiezo:
@@ -28,7 +28,7 @@ class MCLPiezo:
             raise ConnectionError("MCL initialize error")
         return handler
 
-    def mcl_read(self, axis_number: int) -> float:
+    def mcl_read(self, axis_number: AxisID) -> float:
         """
         Read the current position of the specified axis.
 
@@ -42,7 +42,7 @@ class MCLPiezo:
         mcl_single_read_n.restype = c_double
         return mcl_single_read_n(c_uint(axis_number), c_int(self.handler))
 
-    def mcl_write(self, position: float, axis_number: int) -> int:
+    def mcl_write(self, position: float, axis_number: AxisID) -> int:
         """
         Commands the Nano-Drive to move the specified axis to a position.
 
@@ -62,7 +62,7 @@ class MCLPiezo:
             print("MCL write error = ", error_code)
         return error_code
 
-    def get_calibration(self, axis_number: int) -> float:
+    def get_calibration(self, axis_number: AxisID) -> float:
         """
         Returns the range of motion of the specified axis.
 
