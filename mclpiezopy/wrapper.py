@@ -4,7 +4,7 @@ from ctypes import c_double, c_int, c_uint, cdll
 from .constants import AXIS_ID_X, AXIS_ID_Y, AXIS_ID_Z
 
 
-class MCLPiezo():
+class MCLPiezo:
     def __init__(self) -> None:
         # provide valid path to Madlib.dll.
         # Madlib.h and Madlib.lib should also be in the same folder
