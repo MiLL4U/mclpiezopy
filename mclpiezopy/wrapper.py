@@ -1,10 +1,10 @@
 import atexit
 from ctypes import c_double, c_int, c_uint, cdll
 
-from .constants import AXIS_ID_X, AXIS_ID_Y, AXIS_ID_Z
+from .constants import AXIS_ID, AxisID
 
 
-class MCLPiezo():
+class MCLPiezo:
     def __init__(self) -> None:
         # provide valid path to Madlib.dll.
         # Madlib.h and Madlib.lib should also be in the same folder
@@ -28,7 +28,7 @@ class MCLPiezo():
             raise ConnectionError("MCL initialize error")
         return handler
 
-    def mcl_read(self, axis_number: int) -> float:
+    def mcl_read(self, axis_number: AxisID) -> float:
         """
         Read the current position of the specified axis.
 
@@ -42,7 +42,7 @@ class MCLPiezo():
         mcl_single_read_n.restype = c_double
         return mcl_single_read_n(c_uint(axis_number), c_int(self.handler))
 
-    def mcl_write(self, position: float, axis_number: int) -> int:
+    def mcl_write(self, position: float, axis_number: AxisID) -> int:
         """
         Commands the Nano-Drive to move the specified axis to a position.
 
@@ -62,7 +62,7 @@ class MCLPiezo():
             print("MCL write error = ", error_code)
         return error_code
 
-    def get_calibration(self, axis_number: int) -> float:
+    def get_calibration(self, axis_number: AxisID) -> float:
         """
         Returns the range of motion of the specified axis.
 
@@ -81,15 +81,15 @@ class MCLPiezo():
         return res
 
     def goxy(self, x_position: float, y_position: float):
-        self.mcl_write(x_position, AXIS_ID_X)
-        self.mcl_write(y_position, AXIS_ID_Y)
+        self.mcl_write(x_position, AXIS_ID['X'])
+        self.mcl_write(y_position, AXIS_ID['Y'])
 
     def goz(self, z_position: float):
-        self.mcl_write(z_position, AXIS_ID_Z)
+        self.mcl_write(z_position, AXIS_ID['Z'])
 
     def get_position(self):
-        return (self.mcl_read(AXIS_ID_X), self.mcl_read(AXIS_ID_Y),
-                self.mcl_read(AXIS_ID_Z))
+        return (self.mcl_read(AXIS_ID['X']), self.mcl_read(AXIS_ID['Y']),
+                self.mcl_read(AXIS_ID['Z']))
 
     def mcl_close(self) -> None:
         """
